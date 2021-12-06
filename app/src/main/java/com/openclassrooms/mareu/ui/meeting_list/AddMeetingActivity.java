@@ -12,19 +12,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.openclassrooms.mareu.DAO.DataBaseHelper;
 import com.openclassrooms.mareu.R;
 import com.openclassrooms.mareu.databinding.ActivityAddMeetingBinding;
 import com.openclassrooms.mareu.di.DI;
 import com.openclassrooms.mareu.model.Meeting;
 import com.openclassrooms.mareu.service.MeetingApiService;
 
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.Random;
 
@@ -119,9 +114,7 @@ public class AddMeetingActivity extends AppCompatActivity implements DatePickerD
                 binding.etMailInvites.getText().toString(),getRandomColor ()
         );
         mApiService.createMeeting(meeting);
-        DataBaseHelper dataBaseHelper = new DataBaseHelper ( AddMeetingActivity.this );
-        boolean success = dataBaseHelper.addOne ( meeting );
-        Toast.makeText ( AddMeetingActivity.this, "SUCCESS = " + success, Toast.LENGTH_SHORT ).show ();
+        Log.d("tagii","meeting = "+meeting);
         finish();
     }
 

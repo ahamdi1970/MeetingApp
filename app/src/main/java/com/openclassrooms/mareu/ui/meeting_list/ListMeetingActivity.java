@@ -4,14 +4,12 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 
-import com.openclassrooms.mareu.DAO.DataBaseHelper;
 import com.openclassrooms.mareu.R;
 import com.openclassrooms.mareu.databinding.ActivityListMeetingBinding;
 import com.openclassrooms.mareu.di.DI;
@@ -40,22 +38,19 @@ public class ListMeetingActivity extends AppCompatActivity implements DatePicker
 
     private MyMeetingRecyclerViewAdapter adapter;
 
-    DataBaseHelper dataBaseHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dataBaseHelper = new DataBaseHelper ( ListMeetingActivity.this );
-        //apiService = DI.getMeetingApiService();
+        apiService = DI.getMeetingApiService();
 
         initView();
 
         setSupportActionBar(binding.meetingToolbar);
 
-        initList (dataBaseHelper.getEveryMeeting());
-        //initList(apiService.getMeetings ());
+        initList(apiService.getMeetings ());
 
         binding.addMeeting.setOnClickListener( v -> {
             Intent intent = new Intent(getApplicationContext(), AddMeetingActivity.class);
@@ -105,8 +100,7 @@ public class ListMeetingActivity extends AppCompatActivity implements DatePicker
             case R.id.sortbyroom:
                 return true;
             case R.id.reset:
-                initList (dataBaseHelper.getEveryMeeting());
-                //initList (apiService.getMeetings ());
+                initList (apiService.getMeetings ());
                 return true;
             default:
                 initList (apiService.returnMatchingMeetingsWithRoom ( item.getTitle ().toString ()));
@@ -138,7 +132,6 @@ public class ListMeetingActivity extends AppCompatActivity implements DatePicker
     @Subscribe
     public void onDeleteMeeting (DeleteMeetingEvent event) {
         apiService.deleteMeeting(event.meeting);
-        dataBaseHelper.deleteOne (event.meeting);
         adapter.notifyDataSetChanged();
     }
     // to be able to use date selected

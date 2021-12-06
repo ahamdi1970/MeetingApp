@@ -1,7 +1,6 @@
 package com.openclassrooms.mareu.service;
 
 
-import com.openclassrooms.mareu.DAO.DataBaseHelper;
 import com.openclassrooms.mareu.model.Meeting;
 
 import java.util.ArrayList;
